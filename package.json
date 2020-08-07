@@ -1,0 +1,37 @@
+{
+  "name": "similar-games",
+  "version": "1.0.0",
+  "description": "Similar/Related Games component",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js -d --watch ",
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node server/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hrr47-FEC-Bailey/similar-games.git"
+  },
+  "author": "Stephanye Blakely",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hrr47-FEC-Bailey/similar-games/issues"
+  },
+  "homepage": "https://github.com/hrr47-FEC-Bailey/similar-games#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
