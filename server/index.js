@@ -9,8 +9,24 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
-app.get('/getGamesBy:series', function(req, res) {
-  db.getGamesBySeries(req.series, function(error, result)
+// app.get('/getGamesBy:series', function(req, res) {
+//   db.getGamesBySeries(req.series, function(error, result)
+//   {
+//     if (error)
+//     {
+//       res.status(500);
+//       return;
+//     } else {
+//       res.status(200).json(result);
+//       return;
+//     }
+
+//   });
+
+// });
+
+app.get('/getGamesByTags', function(req, res) {
+  db.getGamesByTags(function(error, result)
   {
     if (error)
     {
@@ -23,21 +39,6 @@ app.get('/getGamesBy:series', function(req, res) {
 
   });
 
-});
-
-app.get('/getGamesBy:tags', function(req, res) {
-  db.getGamesByTags(req.tag, function(error, result)
-  {
-    if (error)
-    {
-      res.status(500);
-      return;
-    } else {
-      res.status(200).json(result);
-      return;
-    }
-
-  });
 
 });
 
