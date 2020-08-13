@@ -2,13 +2,18 @@
   "name": "similar-games",
   "version": "1.0.0",
   "description": "Similar/Related Games component",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js -d --watch ",
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node server/seed.js"
   },
+
+    "resolutions": {
+      "styled-components": "^5"
+    },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hrr47-FEC-Bailey/similar-games.git"
@@ -21,6 +26,7 @@
   "homepage": "https://github.com/hrr47-FEC-Bailey/similar-games#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "eslint": "^7.6.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",

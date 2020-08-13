@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-//import App from './components/App';
+import ReactDom from 'react-dom';
+import SimilarGames from './similargames.jsx';
 
-ReactDOM.render(null, document.getElementById('main'));
+ReactDom.render(<SimilarGames/>, document.getElementById('main'));
+
