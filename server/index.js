@@ -8,11 +8,14 @@ const app = express();
 
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/client'));
+app.use(express.static('public'));
+//app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client')); //could be problematic as well
 
 app.get('/getGamesBySeries', function(req, res) {
-  db.getGamesBySeries(req.series, function(error, result)
+  // console.log('data: ');
+  console.log('req params: ' + JSON.stringify(req.params));
+  db.getGamesBySeries(req.params, function(error, result)
   {
     if (error)
     {
@@ -27,9 +30,27 @@ app.get('/getGamesBySeries', function(req, res) {
 
 });
 
+// app.get('/getGameSeriesID', function(req, res) {
+//   db.getGameSeriesID(req, function(error, result)
+//   {
+//     console.log(req.data);
+//     if (error)
+//     {
+//       res.status(500);
+//       return;
+//     } else {
+//       res.status(200).json(result);
+//       return;
+//     }
+
+//   });
+
+// });
+
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
-  //
+  res.sendFile(path.join(_dirname, "public", index.html));
+
+  //res.sendFile('/mnt/c/Users/Stephanye/FRONT-END-CAPSTONE/similar-games/public/index.html');
 });
 
 app.get('/getGamesByTags', function(req, res) {

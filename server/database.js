@@ -7,13 +7,30 @@ const connection = mysql.createConnection({
   database: 'similarGames'
 });
 
+// const getGameSeriesID = (function(data, callback) {
+// const sql = "SELECT ID FROM series WHERE seriesName = data"
+// connection.query(sql, function(err, result, fields) {
+//   if (err)
+//     {
+//       console.log(err);
+//       callback(err, null);
+//     }
+//     else
+//     {
+//       console.log(result);
+//       callback(null, result);
+//     }
+// })
+// })
+
 const getGamesBySeries = (function(data, callback) {
-  connection.query("SELECT * FROM (games AS g, gameTags AS gt, tags AS t)  LEFT JOIN media AS m ON g.id = m.gameID WHERE g.series = '' AND g.id = gt.gameID AND gt.tagID = t.id", function(err, result, fields)
+
+  const sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(t.tagName) as tags,  GROUP_CONCAT(m.imageFile) as media FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m) WHERE s.id = 3 AND g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id GROUP BY g.id, g.name;"
+  connection.query(sql, function(err, result, fields)
   {
     if (err)
     {
       console.log(err);
-      result.sendStatus(500);
       callback(err, null);
     }
     else
@@ -24,9 +41,10 @@ const getGamesBySeries = (function(data, callback) {
 });
 //AND t.name = 'platformer'
 // LEFT JOIN media AS m ON g.id = m.gameID
-// (games AS g, gameTags AS gt, tags AS t)  LEFT JOIN media AS m ON g.id = m.gameID WHERE g.id = gt.gameID AND gt.tagID = t.id
-const getGamesByTags = (function(callback) {
-  connection.query("SELECT g.id, g.name, g.price, g.sale_percent, g.series, g.releasedt, g.reviews, g.average_review,  GROUP_CONCAT(t.name) as tags FROM gameTags gt JOIN games AS g ON gt.gameID = g.id JOIN tags AS t ON gt.tagID = t.id GROUP BY g.id, g.name; ", function(err, result, fields)
+//
+const getGamesByTags = (function(data, callback) {
+  connection.query(
+    "SELECT t.gameID, SUM(t.count) as rank FROM (SELECT gameID, count(gameID) as count from gameTags WHERE gameID != 1 AND tagID = 3 group by gameID UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != 1 AND tagID = 5  group by gameID) as t GROUP BY t.gameID ORDER BY rank desc LIMIT 10;", function(err, result, fields)
   {
     if (err)
     {
@@ -44,33 +62,27 @@ const seedIntoDatabase = (function(data, callback) {
   let newGame = data;
   console.log(' Data from database.js: ' + JSON.stringify(data));
   connection.query(
-    "CALL populateRow('" + newGame.name + "', " + newGame.price + ", " + newGame.sale + ", '" + newGame.series + "', '" + newGame.release + "', " + newGame.reviews + ", " + newGame.rating + ", '" + newGame.tags[0] + "', '" + newGame.tags[1] + "', '" + newGame.tags[2] + "', '" + newGame.tags[3] + "', '" + newGame.tags[4] + "', '" + newGame.imagea + "', '" + newGame.imageb + "', '" + newGame.imagec + "', '" + newGame.imaged + "');",
-    //"BEGIN WORK " +
-  //  "INSERT INTO games (name, price, sale_percent, series, releasedt, reviews, average_review) VALUES ('" +  + "', " +  + ", " +  + ", '" +  + "', '" +  + "'," + + ", " +  + "); " +
-  //  "SET @last_id_game = LAST_INSERT_ID();  " +
+    "CALL populateRow('" + newGame.name + "', " + newGame.price + ", " + newGame.sale + ", '" + newGame.release + "', " + newGame.reviews + ", " + newGame.rating + ", '" + newGame.series + "', '" + newGame.tags[0] + "', '" + newGame.tags[1] + "', '" + newGame.tags[2] + "', '" + newGame.tags[3] + "', '" + newGame.tags[4] + "', '" + newGame.imagea + "', '" + newGame.imageb + "', '" + newGame.imagec + "', '" + newGame.imaged + "');",
 
-    // "INSERT INTO tags (name) VALUES ('" + newGame.tags[0] + "')  "  +
-    // "SET @last_id_tag = LAST_INSERT_ID()  " +
-    // "INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag)  " +
-    // "INSERT INTO tags (name) VALUES ('" + newGame.tags[1] + "')  " +
-    // "SET @last_id_tag = LAST_INSERT_ID(); " +
-    // "INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag)  " +
-    // "INSERT INTO tags (name) VALUES ('" + newGame.tags[2] + "')  " +
-    // "SET @last_id_tag = LAST_INSERT_ID(); " +
-    // "INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag)  " +
-    // "INSERT INTO tags (name) VALUES ('" + newGame.tags[3] + "')  " +
-    // "SET @last_id_tag = LAST_INSERT_ID() " +
-    // "INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);  " +
-    // "INSERT INTO tags (name) VALUES ('" + newGame.tags[4] + "')  " +
-    // "SET @last_id_tag = LAST_INSERT_ID()  " +
-    // "INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag)  " +
+//     CREATE PROCEDURE populateRow(
+// 		  IN inGameName varchar(50)
+// 		, IN inGamePrice decimal(6, 2)
+// 		, IN inSale decimal(3, 2)
+// 		, IN inReleaseDate date
+// 		, IN inReviews int
+// 		, IN inRating decimal(2, 1)
+//     , IN inSeriesName varchar(50)
+// 		, IN inTag1 varchar(50)
+// 		, IN inTag2 varchar(50)
+// 		, IN inTag3 varchar(50)
+// 		, IN inTag4 varchar(50)
+// 		, IN inTag5 varchar(50)
+// 		, IN inImage1 varchar(255)
+// 		, IN inImage2 varchar(255)
+// 		, IN inImage3 varchar(255)
+// 		, IN inImage4 varchar(255)
+// )
 
-    // "INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, '" + newGame.imagea + "')  " +
-    // "INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, '" + newGame.imageb + "')  " +
-    // "INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, '" + newGame.imagec + "')  " +
-    // "INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, '" + newGame.imaged + "')  " +
-    //"ROLLBACK TRANSACTION; \n " +
-    //"END",
     function(err, result)
   {
     if (err)

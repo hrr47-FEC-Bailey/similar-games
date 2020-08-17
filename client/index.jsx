@@ -1,6 +1,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import SimilarGames from './similargames.jsx';
+import GlobalStyle from './globalStyles.js';
 
-ReactDom.render(<SimilarGames/>, document.getElementById('main'));
+function App() {
+  return (
+    <React.Fragment>
+    <GlobalStyle />
+    <SimilarGames/>
+  </React.Fragment>
+  )
+}
+
+ReactDom.render(<App/>, document.getElementById('main'));
 

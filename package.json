@@ -9,11 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node server/seed.js"
   },
-
-    "resolutions": {
-      "styled-components": "^5"
-    },
-
+  "resolutions": {
+    "styled-components": "^5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hrr47-FEC-Bailey/similar-games.git"
@@ -25,15 +23,20 @@
   },
   "homepage": "https://github.com/hrr47-FEC-Bailey/similar-games#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "eslint": "^7.6.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",
+    "flexbox-react": "^4.4.0",
     "fs": "0.0.1-security",
     "mysql": "^2.18.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-native": "^0.63.2",
+    "react-tooltip": "^4.2.8",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",

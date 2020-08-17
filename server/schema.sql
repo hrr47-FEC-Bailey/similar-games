@@ -4,16 +4,24 @@ CREATE DATABASE similarGames;
 
 USE similarGames;
 
+CREATE TABLE series (
+  id int NOT NULL AUTO_INCREMENT unique,
+  seriesName varchar(50) unique,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE games (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(50) NOT NULL unique,
   price decimal(6, 2),
   sale_percent decimal(3, 2),
-  series varchar(50),
+  seriesID int,
   releasedt date,
   reviews int,
   average_review decimal(2, 1),
+  FOREIGN KEY (seriesID) REFERENCES series(id),
   PRIMARY KEY (ID)
+
 );
 
 
@@ -30,7 +38,7 @@ CREATE TABLE media (
 
 CREATE TABLE tags (
   id int NOT NULL AUTO_INCREMENT,
-  name varchar(50) unique,
+  tagName varchar(50) unique,
   PRIMARY KEY (id)
 );
 
@@ -41,16 +49,18 @@ CREATE TABLE gameTags (
   FOREIGN KEY (tagID) REFERENCES tags(id)
 );
 
+
+
 DELIMITER //
 
 CREATE PROCEDURE populateRow(
 		  IN inGameName varchar(50)
 		, IN inGamePrice decimal(6, 2)
 		, IN inSale decimal(3, 2)
-		, IN inSeries varchar(50)
 		, IN inReleaseDate date
 		, IN inReviews int
 		, IN inRating decimal(2, 1)
+    , IN inSeriesName varchar(50)
 		, IN inTag1 varchar(50)
 		, IN inTag2 varchar(50)
 		, IN inTag3 varchar(50)
@@ -66,25 +76,29 @@ BEGIN
   BEGIN
     SELECT 'Duplicatekey';
   END;
-	INSERT INTO games (name, price, sale_percent, series, releasedt, reviews, average_review)
-	VALUES (inGameName, inGamePrice, inSale, inSeries, inReleaseDate, inReviews, inRating);
+	INSERT INTO games (name, price, sale_percent, releasedt, reviews, average_review)
+	VALUES (inGameName, inGamePrice, inSale, inReleaseDate, inReviews, inRating);
 
 	SET @last_id_game = LAST_INSERT_ID();
-    INSERT INTO tags (name) VALUES (inTag1);
-    SELECT id INTO @last_id_tag FROM tags WHERE tags.name = inTag1;
+    INSERT INTO tags (tagName) VALUES (inTag1);
+    SELECT id INTO @last_id_tag FROM tags WHERE tags.tagName = inTag1;
     INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);
-    INSERT INTO tags (name) VALUES (inTag2);
-    SELECT id INTO @last_id_tag FROM tags WHERE tags.name = inTag2;
+    INSERT INTO tags (tagName) VALUES (inTag2);
+    SELECT id INTO @last_id_tag FROM tags WHERE tags.tagName = inTag2;
     INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);
-    INSERT INTO tags (name) VALUES (inTag3);
-    SELECT id INTO @last_id_tag FROM tags WHERE tags.name = inTag3;
+    INSERT INTO tags (tagName) VALUES (inTag3);
+    SELECT id INTO @last_id_tag FROM tags WHERE tags.tagName = inTag3;
     INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);
-    INSERT INTO tags (name) VALUES (inTag4);
-    SELECT id INTO @last_id_tag FROM tags WHERE tags.name = inTag4;
+    INSERT INTO tags (tagName) VALUES (inTag4);
+    SELECT id INTO @last_id_tag FROM tags WHERE tags.tagName = inTag4;
     INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);
-    INSERT INTO tags (name) VALUES (inTag5);
-    SELECT id INTO @last_id_tag FROM tags WHERE tags.name = inTag5;
+    INSERT INTO tags (tagName) VALUES (inTag5);
+    SELECT id INTO @last_id_tag FROM tags WHERE tags.tagName = inTag5;
     INSERT INTO gameTags (gameID, tagID) VALUES (@last_id_game, @last_id_tag);
+
+    INSERT INTO series (seriesName) VALUES (inSeriesName);
+    SELECT id INTO  @last_id_series FROM series WHERE series.seriesName = inSeriesName;
+    UPDATE games SET seriesID = @last_id_series WHERE id = @last_id_game;
 
     INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, inImage1);
     INSERT INTO media (gameID, imageFile) VALUES (@last_id_game, inImage2);
@@ -100,7 +114,7 @@ DELIMITER ;
 
 
 
-CALL populateRow('Voom Voom Motorcycle', 95.00, 0.25, 'Ham Adventures', '2020-02-14', 143, 4.5, 'open-source', 'auxiliary', 'solid state', 'open-source', 'wireless', 'https://s3.amazonaws.com/uifaces/faces/twitter/lokesh_coder/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/dzantievm/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/victorerixon/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/YoungCutlass/128.jpg');
+-- CALL populateRow('Voom Voom Motorcycle', 95.00, 0.25, 'Ham Adventures', '2020-02-14', 143, 4.5, 'open-source', 'auxiliary', 'solid state', 'open-source', 'wireless', 'https://s3.amazonaws.com/uifaces/faces/twitter/lokesh_coder/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/dzantievm/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/victorerixon/128.jpg', 'https://s3.amazonaws.com/uifaces/faces/twitter/YoungCutlass/128.jpg');
 
 -- INSERT INTO games (name, price, sale_percent, series, releasedt, reviews, average_review) VALUES ("Bart's Nightmare", 4.75, .10, null, '1992-10-01', 5, 4.6);
 -- SET @last_id_game = LAST_INSERT_ID();

@@ -2,13 +2,13 @@ const faker = require('faker');
 const db = require('./database.js');
 
 let seriesPossibilities = [];
-let seriesNum = 5;
+let seriesNum = 7;
 for (var i = 0; i < seriesNum; i++)
 {
   seriesPossibilities.push(faker.name.title());
 };
 
-for ( var i = 0; i < 4; i++)
+for ( var i = 0; i < 24; i++)
 {
   let gameName = faker.name.title();
   let gamePrice = faker.commerce.price();
@@ -41,10 +41,10 @@ for ( var i = 0; i < 4; i++)
      name: gameName,
      price: gamePrice,
      sale: gameSale,
-     series: gameSeries,
      release: date,
      reviews: reviewNum,
      rating: avgReview,
+     series: gameSeries,
      imagea: image1,
      imageb: image2,
      imagec: image3,

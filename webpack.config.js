@@ -1,16 +1,11 @@
-var path = require('path');
-var SRC_DIR = path.join(__dirname, '/client');
-var DIST_DIR = path.join(__dirname, '/public');
-
+const path = require('path');
 module.exports = {
   mode: 'development',
-  entry: `${SRC_DIR}/index.jsx`,
-  target: "node",
+  entry: './client/index.jsx',
   output: {
-    filename: 'bundle.js',
-    //path: DIST_DIR,
-    publicPath:'/'
 
+    path: path.join(__dirname + "/public"),
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -27,4 +22,4 @@ module.exports = {
       }
     ]
   }
-};
+}
