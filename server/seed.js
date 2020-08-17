@@ -8,10 +8,10 @@ for (var i = 0; i < seriesNum; i++)
   seriesPossibilities.push(faker.name.title());
 };
 
-for ( var i = 0; i < 24; i++)
+for ( var i = 0; i < 150; i++)
 {
-  let gameName = faker.name.title();
-  let gamePrice = faker.commerce.price();
+  let gameName = faker.company.bsBuzz();
+  let gamePrice = (Math.random() * 100).toFixed(2);
   let gameSale = (Math.random().toFixed(2, 2) - .01);
 
   let gameInSeries = Math.floor(Math.random() * 100);
@@ -27,10 +27,10 @@ for ( var i = 0; i < 24; i++)
   //date = date.split('T')[0];
   let reviewNum = Math.floor(Math.random() * 500);
   let avgReview = (Math.random() * 4).toFixed(1, 2);
-  let image1 = faker.image.avatar();
-  let image2 = faker.image.avatar();
-  let image3 = faker.image.avatar();
-  let image4 = faker.image.avatar();
+  let image1 = faker.image.image();
+  let image2 = faker.image.image();
+  let image3 = faker.image.image();
+  let image4 = faker.image.image();
   let gameTags = [];
   let tagNum = Math.floor(Math.random() * (5 - 1) + 1);
   for ( var j = 0; j < 5; j++)

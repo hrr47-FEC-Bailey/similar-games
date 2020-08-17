@@ -24,9 +24,8 @@ const connection = mysql.createConnection({
 // })
 
 const getGamesBySeries = (function(data, callback) {
-
-  const sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(t.tagName) as tags,  GROUP_CONCAT(m.imageFile) as media FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m) WHERE s.id = 3 AND g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id GROUP BY g.id, g.name;"
-  connection.query(sql, function(err, result, fields)
+  const sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags,  GROUP_CONCAT(DISTINCT m.imageFile) as media FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m) WHERE s.id = ? AND g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id GROUP BY g.id, g.name;"
+  connection.query(sql, data, function(err, result, fields)
   {
     if (err)
     {
@@ -42,13 +41,29 @@ const getGamesBySeries = (function(data, callback) {
 //AND t.name = 'platformer'
 // LEFT JOIN media AS m ON g.id = m.gameID
 //
-const getGamesByTags = (function(data, callback) {
-  connection.query(
-    "SELECT t.gameID, SUM(t.count) as rank FROM (SELECT gameID, count(gameID) as count from gameTags WHERE gameID != 1 AND tagID = 3 group by gameID UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != 1 AND tagID = 5  group by gameID) as t GROUP BY t.gameID ORDER BY rank desc LIMIT 10;", function(err, result, fields)
+const getGamesByTags = (function(gameID, tagArray, callback) {
+  console.log(tagArray);
+  var sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags, GROUP_CONCAT(DISTINCT m.imageFile) as media, r.rank FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m, (" +
+  "SELECT t.gameID, SUM(count) as rank FROM ("
+  var first = true;
+  for(var i = 0; i < tagArray.length; i++)
+  {
+    if (!first)
+    {
+      sql += " UNION "
+    }
+    first = false;
+      sql += " SELECT gameID, count(gameID) as count from gameTags WHERE gameID != " + gameID + " AND tagID = " + tagArray[i] + " group by gameID "
+  }
+  sql += " ) as t GROUP BY t.gameID) as r) WHERE g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id and r.gameID = g.id GROUP BY g.id ORDER BY r.rank desc;"
+  // "SELECT gameID, count(gameID) as count from gameTags WHERE gameID != ? AND tagID = ? group by gameID " +
+  // "UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != ? AND tagID = ? UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != ? AND tagID = ? UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != ? AND tagID = ? UNION SELECT gameID, count(gameID) as count from gameTags WHERE gameID != ? AND tagID = ? group by gameID) as t GROUP BY t.gameID) as r) WHERE g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id and r.gameID = g.id GROUP BY g.id ORDER BY r.rank desc;"
+
+  // connection.query(sql, gameID, data.tag[0], data.gameID, data.tag[1], data.gameID, data.tag[2], data.gameID, data.tag[3], data.gameID, data.tag[4], function(err, result, fields)
+    connection.query(sql, function(err, result, fields)
   {
     if (err)
     {
-      console.log(err);
       callback(err, null);
     }
     else

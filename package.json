@@ -4,7 +4,8 @@
   "description": "Similar/Related Games component",
   "main": "server/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js -d --watch ",
+    "build:dev": "webpack --config webpack.config.js -d --watch ",
+    "build": "webpack --config webpack.config.js -d",
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node server/seed.js"

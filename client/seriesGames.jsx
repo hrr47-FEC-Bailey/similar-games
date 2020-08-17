@@ -18,7 +18,7 @@ class SeriesGames extends React.Component {
 
   componentDidMount() {
     {console.log('this props series: ' + this.props.series + ' ' + this.props.seriesID)}
-    axios.get('/getGamesBySeries', { params: { seriesID: this.props.seriesID} })
+    axios.get('/getGamesBySeries/' + this.props.seriesID)
     .then(result =>
       {
         {console.log(result)}
@@ -27,6 +27,7 @@ class SeriesGames extends React.Component {
       .catch(function(error)
       {
         console.log(error);
+        console.log('Axios request fail');
         return Promise.reject(error);
       })
   }

@@ -24,8 +24,8 @@ class SimilarGames extends React.Component  {
         name: "Voom Voom Motorcycle",
         price: 95,
         sale_percent: 0.25,
-        series: "Chief Security Architect",
-        seriesID: 3,
+        series: "Product Creative Assistant",
+        seriesID: 1,
         releasedt: "2020-02-14",
         reviews: 143,
         average_review: 4.5,
@@ -55,7 +55,7 @@ class SimilarGames extends React.Component  {
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
         <div>
-          <TagGames /> <p></p>
+          <TagGames tags={this.state.currentGame[0].tags} gameid={this.state.currentGame[0].id}/> <p></p>
         </div>
         </Flexbox>
 
