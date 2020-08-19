@@ -3,14 +3,14 @@ import ReactDom from 'react-dom';
 import SimilarGames from './similargames.jsx';
 import GlobalStyle from './globalStyles.js';
 
-function App() {
+function SimilarGamesApp() {
   return (
     <React.Fragment>
     <GlobalStyle />
-    <SimilarGames/>
+    <SimilarGames  gameid={5}/>
   </React.Fragment>
   )
 }
 
-ReactDom.render(<App/>, document.getElementById('main'));
+ReactDom.render(<SimilarGamesApp/>, document.getElementById('similar-games'));
 

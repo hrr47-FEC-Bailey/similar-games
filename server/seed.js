@@ -5,12 +5,12 @@ let seriesPossibilities = [];
 let seriesNum = 7;
 for (var i = 0; i < seriesNum; i++)
 {
-  seriesPossibilities.push(faker.name.title());
+  seriesPossibilities.push(faker.lorem.words());
 };
 
-for ( var i = 0; i < 150; i++)
+for ( var i = 0; i < 100; i++)
 {
-  let gameName = faker.company.bsBuzz();
+  let gameName = faker.random.words();
   let gamePrice = (Math.random() * 100).toFixed(2);
   let gameSale = (Math.random().toFixed(2, 2) - .01);
 
@@ -23,7 +23,7 @@ for ( var i = 0; i < 150; i++)
   let dateFaker = faker.date.past();
   let month = dateFaker.getMonth().toString();
   let day = dateFaker.getDate().toString();
-  let date = dateFaker.getFullYear() + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+  let date = dateFaker.getFullYear() + '-' + ((month.padStart(2, '0') === '00') ? '01' : month.padStart(2, '0')) + '-' + day.padStart(2, '0');
   //date = date.split('T')[0];
   let reviewNum = Math.floor(Math.random() * 500);
   let avgReview = (Math.random() * 4).toFixed(1, 2);
@@ -59,6 +59,7 @@ for ( var i = 0; i < 150; i++)
      if (err)
      {
        console.log(err);
+       i--;
        return;
      }
      console.log(result);
