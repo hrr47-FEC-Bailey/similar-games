@@ -50,7 +50,7 @@ class SimilarGames extends React.Component  {
           </div>
         <div>
           <SeriesGames seriesID={this.state.currentGame[0].seriesID} series={this.state.currentGame[0].series} /> <p></p>
-        </div><p></p>
+        </div>
         <h2 style={{fontSize: "13px"}}>{this.state.currentGame ? 'MORE LIKE THIS' : ''}</h2><br/>
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
