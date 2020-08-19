@@ -6,11 +6,33 @@ const path = require('path');
 const port = 3003;
 const app = express();
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 //app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/client')); //could be problematic as well
+
+
+
+app.get('/api/getGameByID/:gameID', function(req, res) {
+  var gameID = req.params.gameID;
+  db.getGameByID(gameID, function(error, result)
+  {
+    if (error)
+    {
+      console.log('Get request failed')
+      res.sendStatus(500).end();
+    } else {
+      res.json(result).end();
+    }
+
+  });
+});
+
 
 app.get('/api/getGamesBySeries/:seriesID', function(req, res) {
   var seriesID = req.params.seriesID;

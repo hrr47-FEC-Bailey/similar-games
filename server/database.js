@@ -23,9 +23,28 @@ const getGamesBySeries = (function(data, callback) {
     }
   })
 });
-//AND t.name = 'platformer'
-// LEFT JOIN media AS m ON g.id = m.gameID
-//
+
+const getGameByID = (function(data, callback) {
+  const sql = `SELECT g.id, g.name, s.seriesName, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review,
+  GROUP_CONCAT(DISTINCT t.tagName) as tags,
+  GROUP_CONCAT(DISTINCT m.imageFile) as media
+  FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m)
+  WHERE g.id = ? AND g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id AND g.seriesID = s.id GROUP BY g.id, g.name
+  LIMIT 10;`
+  connection.query(sql, data, function(err, result, fields)
+  {
+    if (err)
+    {
+      console.log(err);
+      callback(err, null);
+    }
+    else
+    {
+      callback(null, result);
+    }
+  })
+});
+
 const getGamesByTags = (function(gameID, tagArray, callback) {
   console.log(tagArray);
   var sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags, GROUP_CONCAT(DISTINCT m.imageFile) as media, r.rank FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m, (" +
@@ -78,6 +97,7 @@ const seedIntoDatabase = (function(data, callback) {
 module.exports = {
   getGamesBySeries,
   getGamesByTags,
-  seedIntoDatabase
+  seedIntoDatabase,
+  getGameByID
 
 }
