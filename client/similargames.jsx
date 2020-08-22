@@ -58,10 +58,15 @@ class SimilarGames extends React.Component  {
       <div style={{lineHeight: '10%'}}>
 
         <Flexbox display="flex" overflow="none" flexWrap="wrap" flex="1" width="400px" flexDirection="column">
-        <Flexbox flexDirection="row" justifyContent="space-between" margin="10px 5px 0 0">
-          <h2 style={{fontSize: "13px" }}>{this.state.currentGame[0].seriesName ? 'MORE FROM ' + this.state.currentGame[0].seriesName.toUpperCase() : ''}</h2>
-          <div style={{float: "right", backgroundColor: "rgba( 103, 193, 245, 0.2 )", borderRadius: "1px", color: "#67c1f5", fontSize: "11px", width: "52px", height: "15px"}}><div style={{padding: "7px", textShadow: "none",  letterSpacing: ".4px"}}>{'S' + ('ee all').toLowerCase()}</div></div>
-        </Flexbox>
+          {this.state.currentGame[0].seriesName &&
+           (
+              <Flexbox flexDirection="row" justifyContent="space-between" margin="10px 5px 0 0">
+              <h2 style={{fontSize: "13px" }}>{'MORE FROM ' + this.state.currentGame[0].seriesName.toUpperCase()}</h2>
+              <div style={{float: "right", backgroundColor: "rgba( 103, 193, 245, 0.2 )", borderRadius: "1px", color: "#67c1f5", fontSize: "11px", width: "52px", height: "15px"}}><div style={{padding: "7px", textShadow: "none",  letterSpacing: ".4px"}}>{'S' + ('ee all').toLowerCase()}</div></div>
+              </Flexbox>
+          ) }
+
+
         <br/>
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
