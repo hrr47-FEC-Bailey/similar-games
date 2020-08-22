@@ -46,7 +46,6 @@ const getGameByID = (function(data, callback) {
 });
 
 const getGamesByTags = (function(gameID, tagArray, callback) {
-  console.log(tagArray);
   var sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags, GROUP_CONCAT(DISTINCT m.imageFile) as media, r.rank FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m, (" +
   "SELECT t.gameID, SUM(count) as rank FROM ("
   var first = true;

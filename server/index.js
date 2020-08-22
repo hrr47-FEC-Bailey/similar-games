@@ -5,10 +5,11 @@ const db = require('./database.js');
 const path = require('path');
 const port = 3003;
 const app = express();
+const cors = require('cors');
 
 const corsOptions = {
   origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200,
 };
 
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ app.use(express.static(__dirname + '/client')); //could be problematic as well
 
 
 
-app.get('/api/getGameByID/:gameID', function(req, res) {
+app.get('/api/getGameByID/:gameID', cors(corsOptions), function(req, res) {
   var gameID = req.params.gameID;
   db.getGameByID(gameID, function(error, result)
   {
@@ -34,7 +35,7 @@ app.get('/api/getGameByID/:gameID', function(req, res) {
 });
 
 
-app.get('/api/getGamesBySeries/:seriesID', function(req, res) {
+app.get('/api/getGamesBySeries/:seriesID', cors(corsOptions), function(req, res) {
   var seriesID = req.params.seriesID;
   db.getGamesBySeries(seriesID, function(error, result)
   {
@@ -53,7 +54,7 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(_dirname, "public", index.html));
 });
 
-app.get('/api/getGamesByTags/:gameID/:tagString', function(req, res) {
+app.get('/api/getGamesByTags/:gameID/:tagString', cors(corsOptions), function(req, res) {
   var gameID = req.params.gameID;
   var tagString = req.params.tagString;
   var tagArray = tagString.split('&');
