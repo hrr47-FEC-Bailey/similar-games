@@ -2,7 +2,7 @@
 module.exports = {
   connectionLimit: 10,
   user: 'root',
-  password: '',
+  password: 'NewRootP@ss',
   database: 'similarGames',
-  host: 'localhost',
+  host: '157.245.133.152',
 }

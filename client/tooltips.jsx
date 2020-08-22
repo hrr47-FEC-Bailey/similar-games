@@ -38,11 +38,24 @@ class Tooltips extends React.Component {
     }
     this.setState({currentImage: newCurrentImage});
   }
+
+  dateFormat(inDate) {
+    {console.log(inDate)}
+    let releaseDate = new Date(inDate);
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let monthNum = releaseDate.getMonth();
+    let month = monthNames[monthNum];
+    let day = releaseDate.getDate();
+    let year = releaseDate.getFullYear();
+    let newDate = month + ' ' + day + ', ' + year;
+    return newDate;
+  }
+
   render() {
     return (
       <div style={{fontSize: "12px", padding: "2px", lineHeight: "1.7", letterSpacing: ".6px", textShadow: "none", margin: "2px"}}>
         <div style={{fontSize: "15px"}}>{this.props.game.name.charAt(0).toUpperCase() + this.props.game.name.slice(1)+ '\u2122'}</div>
-        <div style={{fontSize: "10px"}}>{'Released: ' + this.props.game.releasedt.split('T')[0].toString()}</div>
+        <div style={{fontSize: "10px"}}>{'Released: ' + this.dateFormat(this.props.game.releasedt)}</div>
         <div>
           <img src={this.props.images[this.state.currentImage]} width="250" height="125"/>
         </div>
@@ -68,7 +81,7 @@ class Tooltips extends React.Component {
           </div>
           <div>
             {/* {console.log(this.state.tags)} */}
-          <Flexbox flexDirection="row" flexWrap="wrap" display="flex" alignItems="center" flex="0 0 50px" justifyContent="space-between">
+          <Flexbox flexDirection="row" flexWrap="wrap" display="flex" alignItems="center" flex="0 0 50px" justifyContent="space-between" overflow="hidden">
             {this.state.tags.map(tag => {
               return <div style={{background: "#96a3ae", color: "white"}}><div style={{padding: "3px"}}>{tag}</div></div>
             })}

@@ -57,14 +57,26 @@ class SimilarGames extends React.Component  {
 
       <div style={{lineHeight: '10%'}}>
 
-        <Flexbox display="flex" overflow="hidden" flexWrap="wrap" flex="1" width="400px" position="absolute" flexDirection="column">
-        <h2 style={{fontSize: "13px"}}>{this.state.currentGame[0].seriesName ? 'MORE FROM ' + this.state.currentGame[0].seriesName.toUpperCase() : ''}</h2> <br/>
+        <Flexbox display="flex" overflow="none" flexWrap="wrap" flex="1" width="400px" flexDirection="column">
+          {this.state.currentGame[0].seriesName &&
+           (
+              <Flexbox flexDirection="row" justifyContent="space-between" margin="10px 5px 0 0">
+              <h2 style={{fontSize: "13px" }}>{'MORE FROM ' + this.state.currentGame[0].seriesName.toUpperCase()}</h2>
+              <div style={{float: "right", backgroundColor: "rgba( 103, 193, 245, 0.2 )", borderRadius: "1px", color: "#67c1f5", fontSize: "11px", width: "52px", height: "15px"}}><div style={{padding: "7px", textShadow: "none",  letterSpacing: ".4px"}}>{'S' + ('ee all').toLowerCase()}</div></div>
+              </Flexbox>
+          ) }
+
+
+        <br/>
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
         <div>
           {(this.state.currentGame[0].seriesID) ? <SeriesGames seriesID={this.state.currentGame[0].seriesID} series={this.state.currentGame[0].series} /> : null} <p></p>
         </div>
-        <h2 style={{fontSize: "13px"}}>{this.state.currentGame[0] ? 'MORE LIKE THIS' : ''}</h2><br/>
+        <Flexbox flexDirection="row" justifyContent="space-between" margin="50px 5px 0 0">
+          <h2 style={{fontSize: "13px" }}>{this.state.currentGame[0] ? 'MORE LIKE THIS' : ''}</h2>
+          <div style={{float: "right", backgroundColor: "rgba( 103, 193, 245, 0.2 )", borderRadius: "1px", color: "#67c1f5", fontSize: "11px", width: "52px", height: "15px"}}><div style={{padding: "7px", textShadow: "none",  letterSpacing: ".4px"}}>{'S' + ('ee all').toLowerCase()}</div></div>
+        </Flexbox>
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
         <div>

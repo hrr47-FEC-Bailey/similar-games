@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
     letter-spacing: 2px;
     font-weight: normal;
   }
+
   ::-webkit-scrollbar {
     width: 5px;
     height: 20px;
@@ -53,20 +54,20 @@ const GlobalStyle = createGlobalStyle`
 }
 
 /* Left */
-::-webkit-scrollbar-button:horizontal:decrement
-{
+::-webkit-scrollbar-button:horizontal:decrement {
   border-width: 10px 20px 10px 0;
   border-color: transparent #407899 transparent transparent;
-  background-image:url('../arrow.jpg');
+  background-position: -18px 0px;
+  background-image:url('https://store.steampowered.com//public/images//v6/icon_cluster_controls.png');
 
 }
 
 /* Right */
-::-webkit-scrollbar-button:horizontal:increment
-{
+::-webkit-scrollbar-button:horizontal:increment {
   border-width: 10px 0 10px 20px;
   border-color: transparent transparent transparent #407899;
-  background-image:url('../arrow2.jpg');
+  background-position: -9px 0px;
+  background-image:url('https://store.steampowered.com//public/images//v6/icon_cluster_controls.png');
 
 
 }
