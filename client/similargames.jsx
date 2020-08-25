@@ -37,7 +37,7 @@ class SimilarGames extends React.Component  {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3003/api/getGameByID/' + this.props.gameid)
+    axios.get('/api/getGameByID/' + this.props.gameid)
     .then(result =>
       {
         {console.log(result.data)}
