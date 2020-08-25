@@ -17,7 +17,7 @@ class SeriesGames extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3003/api/getGamesBySeries/' + this.props.seriesID)
+    axios.get('/api/getGamesBySeries/' + this.props.seriesID)
     .then(result =>
       {
         this.setState({inSeries: result.data});

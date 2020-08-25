@@ -21,7 +21,7 @@ class TagGames extends React.Component {
     {var tagString = ''}
     {this.state.tagIDs.map((tag) => { tagString = tagString + tag  + '&'})}
     {tagString = tagString.substring(0, tagString.length-1)}
-    axios.get('http://localhost:3003/api/getGamesByTags/' + this.props.gameid + '/' + tagString)
+    axios.get('/api/getGamesByTags/' + this.props.gameid + '/' + tagString)
     .then(result =>
       {
         this.setState({withTags: result.data});
