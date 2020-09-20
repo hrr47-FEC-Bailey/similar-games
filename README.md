@@ -9,6 +9,9 @@ This component shows games that are similar to the game at this endpoint by eith
 CSS Flexbox
 Webpack
 
+## Installation
+Start the server with `npm start` 
+
 
 
 
