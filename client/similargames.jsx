@@ -71,7 +71,7 @@ class SimilarGames extends React.Component  {
         <div style={{height: '1px', background: 'linear-gradient(to right, rgba(58,109,138,255), rgba(58,109,138,0))'}}>
           </div>
         <div>
-          {(this.state.currentGame[0].seriesID) ? <SeriesGames seriesID={this.state.currentGame[0].seriesID} series={this.state.currentGame[0].series} /> : null} <p></p>
+          {(this.state.currentGame[0].seriesID) ? <SeriesGames key={this.state.currentGame[0].seriesID} seriesID={this.state.currentGame[0].seriesID} series={this.state.currentGame[0].series} /> : null} <p></p>
         </div>
         <Flexbox flexDirection="row" justifyContent="space-between" margin="50px 5px 0 0">
           <h2 style={{fontSize: "13px" }}>{this.state.currentGame[0] ? 'MORE LIKE THIS' : ''}</h2>

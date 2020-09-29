@@ -46,8 +46,8 @@ const getGameByID = (function(data, callback) {
 });
 
 const getGamesByTags = (function(gameID, tagArray, callback) {
-  var sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags, GROUP_CONCAT(DISTINCT m.imageFile) as media, r.rank FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m, (" +
-  "SELECT t.gameID, SUM(count) as rank FROM ("
+  var sql = "SELECT g.id, g.name, g.price, g.sale_percent, g.seriesID, g.releasedt, g.reviews, g.average_review, GROUP_CONCAT(DISTINCT t.tagName) as tags, GROUP_CONCAT(DISTINCT m.imageFile) as media, r.sumrank FROM (games AS g, gameTags AS gt, tags AS t, series AS s, media AS m, (" +
+  "SELECT t.gameID, SUM(count) as sumrank FROM ("
   var first = true;
   for(var i = 0; i < tagArray.length; i++)
   {
@@ -58,7 +58,7 @@ const getGamesByTags = (function(gameID, tagArray, callback) {
     first = false;
       sql += " SELECT gameID, count(gameID) as count from gameTags WHERE gameID != " + gameID + " AND tagID = " + tagArray[i] + " group by gameID "
   }
-  sql += " ) as t GROUP BY t.gameID) as r) WHERE g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id and r.gameID = g.id GROUP BY g.id ORDER BY r.rank desc LIMIT 10;"
+  sql += " ) as t GROUP BY t.gameID) as r) WHERE g.id = gt.gameID AND gt.tagID = t.id AND m.gameID = g.id and r.gameID = g.id GROUP BY g.id ORDER BY r.sumrank desc LIMIT 10;"
     connection.query(sql, function(err, result, fields)
   {
     if (err)
